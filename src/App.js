@@ -1,30 +1,28 @@
-import { useEffect } from 'react';
-import axios from 'axios'
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Banner from './components/Banner';
+import Header from './components/Header';
+import Product from './components/Product';
 
 function App() {
+  const [products, setProducts] = useState([])
 
   useEffect(() => {
-    axios('http://localhost:8080').then(data => console.log(data.data))
-  }, [])
+    fetch('http://localhost:8080')
+      .then(res => res.json())
+      .then(data => setProducts(data.results))
+  })
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Banner />
+
+      <div className='products_box'>
+        {products.map((product) => (
+          <Product data={product} />
+        ))}
+      </div>
     </div>
   );
 }
