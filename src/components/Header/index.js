@@ -6,15 +6,17 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './header.css'
+import { Badge } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+    const { savedData } = useSelector(state => state)
+    const navigate = useNavigate()
 
-    const icons = [
-        { icon: <PersonIcon />, title: 'Kirish' },
-        { icon: <FavoriteIcon />, title: 'Tanlanganlar' },
-        { icon: <BarChartIcon />, title: 'Taqqoslash' },
-        { icon: <ShoppingCartIcon />, title: 'Savatcha' },
-    ]
+    const handleNavigate = () => {
+        navigate('/basket')
+    }
 
     const texts = [
         'Марки автомобилей', 'Ходовая часть', 'Моторная часть', 'Запчасти ТО',
@@ -41,12 +43,24 @@ const Header = () => {
                     <Search />
                 </div>
                 <div className='icons_box'>
-                    {icons.map(item => (
-                        <div key={item.title} className='icons'>
-                            <span>{item.icon}</span>
-                            <span>{item.title}</span>
+                    <div className='icons'>
+                        <span><PersonIcon /></span>
+                        <span>Kirish</span>
+                    </div>
+                    <div className='icons'>
+                        <span><FavoriteIcon /></span>
+                        <span>Tanlanganlar</span>
+                    </div>
+                    <div className='icons'>
+                        <span><BarChartIcon /></span>
+                        <span>Taqqoslash</span>
+                    </div>
+                    <Badge badgeContent={savedData.length || '0'} color="primary" >
+                        <div className='icons basket' onClick={handleNavigate}>
+                            <span><ShoppingCartIcon /></span>
+                            <span>Savatcha</span>
                         </div>
-                    ))}
+                    </Badge>
                 </div>
             </section>
 

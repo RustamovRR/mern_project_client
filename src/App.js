@@ -1,28 +1,32 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css';
-import Banner from './components/Banner';
+import { getProducts } from './app/action';
+import Basket from './components/Basket';
 import Header from './components/Header';
-import Product from './components/Product';
+import Home from './components/Home';
 
 function App() {
-  const [products, setProducts] = useState([])
+  const dispatch = useDispatch()
 
   useEffect(() => {
     fetch('http://localhost:8080')
       .then(res => res.json())
-      .then(data => setProducts(data.results))
-  })
+      .then(data => dispatch(getProducts(data.results)))
+  }, [])
 
   return (
     <div className="App">
-      <Header />
-      <Banner />
+      <BrowserRouter>
+        <Header />
 
-      <div className='products_box'>
-        {products.map((product) => (
-          <Product data={product} />
-        ))}
-      </div>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/basket' element={<Basket />} />
+        </Routes>
+
+      </BrowserRouter>
     </div>
   );
 }

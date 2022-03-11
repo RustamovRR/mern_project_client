@@ -59,5 +59,6 @@
   justify-content: space-between;
 }
 
-.bottom span {
+.basket {
+  cursor: pointer;
 }
