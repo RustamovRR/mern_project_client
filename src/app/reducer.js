@@ -18,13 +18,24 @@ export const productReducer = (state = initialState, action) => {
     }
 };
 
-export const saveProducts = (state = [], action) => {
+export const saveProductsReducer = (state = [], action) => {
     switch (action.type) {
         case types.SELECTED_DATA:
             return ([
                 ...state,
                 action.payload
             ])
+        default:
+            return state
+    }
+}
+
+export const deletedProductsReducer = (state = [], action) => {
+    switch (action.type) {
+        case types.DELETED_DATA:
+            return (
+                action.payload
+            )
         default:
             return state
     }

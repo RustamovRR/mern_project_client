@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import './App.css';
 import { getProducts } from './app/action';
 import Basket from './components/Basket';
-import Header from './components/Header';
 import Home from './components/Home';
+import Login from './components/Login';
+import './App.css';
 
 function App() {
   const dispatch = useDispatch()
@@ -19,13 +19,11 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
-
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/basket' element={<Basket />} />
         </Routes>
-
       </BrowserRouter>
     </div>
   );

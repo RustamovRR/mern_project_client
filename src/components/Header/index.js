@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './header.css'
-import { Badge } from '@mui/material';
+import { Badge, Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,6 +16,13 @@ const Header = () => {
 
     const handleNavigate = () => {
         navigate('/basket')
+    }
+
+    const handleLogout = () => {
+        if (window.confirm('rostan chiqib ketmoqchisiz')) {
+            localStorage.removeItem('token')
+            window.location.reload()
+        }
     }
 
     const texts = [
@@ -43,7 +50,11 @@ const Header = () => {
                     <Search />
                 </div>
                 <div className='icons_box'>
-                    <div className='icons'>
+                    <div
+                        className='icons'
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => navigate('/login')}
+                    >
                         <span><PersonIcon /></span>
                         <span>Kirish</span>
                     </div>
@@ -61,6 +72,9 @@ const Header = () => {
                             <span>Savatcha</span>
                         </div>
                     </Badge>
+                    <Button onClick={handleLogout}>
+                        Logout
+                    </Button>
                 </div>
             </section>
 

@@ -1,15 +1,14 @@
 import React from 'react'
 import { Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { saveProduct } from '../../app/action'
+import { deletedProducts, saveProduct } from '../../app/action'
 import { makeStyles } from '@mui/styles';
 import productImg from '../../images/product.png'
 import './product.css'
 
-const Product = ({ product }) => {
+const Product = ({ product, isSaved }) => {
     const dispatch = useDispatch()
-    const { savedData } = useSelector(state => state)
-    console.log(savedData)
+    const { savedData, deletedData } = useSelector(state => state)
 
     const useStyles = makeStyles({
         button: {
@@ -26,15 +25,18 @@ const Product = ({ product }) => {
     });
     const classes = useStyles()
 
-    const handleClick = () => {
+    const handleAdd = () => {
         dispatch(saveProduct(product))
-        // if (savedData.length === 0) {
-        //     dispatch(saveProduct(product))
-        // } else {
-        //     savedData.some((item) => (
-        //         item._id !== product._id && dispatch(saveProduct(product))
-        //     ))
-        // }
+    }
+
+    const handleDelete = () => {
+        let deletedItems = []
+        savedData?.map(item => {
+            if (item._id == product._id) {
+                deletedItems.push(item)
+            }
+        })
+        dispatch(deletedProducts(deletedItems))
     }
 
     return (
@@ -44,12 +46,24 @@ const Product = ({ product }) => {
                 <h2>{product.price} сум </h2>
                 <h5>{product.discount ? product.discount + 'сум' : `chegirma yo'q`}  </h5>
                 <span className='details'>{product.details}</span>
-                <Button
-                    className={classes.button}
-                    onClick={handleClick}
-                >
-                    Savatchaga qo'shish
-                </Button>
+                {!isSaved && (
+                    <Button
+                        className={classes.button}
+                        onClick={handleAdd}
+                    >
+                        Savatchaga qo'shish
+                    </Button>
+                )}
+
+                {isSaved && (
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={handleDelete}
+                    >
+                        O'chirish
+                    </Button>
+                )}
             </section>
         </div>
     )
